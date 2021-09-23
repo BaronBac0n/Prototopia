@@ -8,7 +8,6 @@ public class ClickOnTarget : MonoBehaviour
 
     private void OnMouseDown()
     {
-        print(this.gameObject.tag);
         ScoreTracker.instance.UpdateScore(value);
         Destroy(this.transform.parent.gameObject);
         TargetSpawner.instance.MakeNewTarget();
