@@ -8,10 +8,14 @@ public class ClickOnTarget : MonoBehaviour
 
     private void OnMouseDown()
     {
-        ScoreTracker.instance.UpdateScore(value);
-        Destroy(this.transform.parent.gameObject);
-        TargetSpawner.instance.MakeNewTarget();
-    }
+        if (Timer.instance.timeLeft > 0)
+        {
+            ScoreTracker.instance.UpdateScore(value);
 
-    
+            Destroy(this.transform.parent.gameObject);
+
+
+            TargetSpawner.instance.MakeNewTarget();
+        }
+    }    
 }
