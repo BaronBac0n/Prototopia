@@ -25,17 +25,16 @@ public class Timer : MonoBehaviour
     public GameObject gameOverPanel;
     public Text gameoverScore;
 
-    void Start()
-    {
-        
-    }
-    
     void Update()
     {
         timeLeft -= Time.deltaTime;
         timerT.text = Mathf.Round(timeLeft).ToString();
         if (timeLeft < 0)
         {
+            if(ScoreTracker.instance.score > ScoreTracker.instance.highscore)
+            {
+                ScoreTracker.instance.highscore = ScoreTracker.instance.score;
+            }
             gameOverPanel.SetActive(true);
             gameoverScore.text = ScoreTracker.instance.score.ToString();
         }
@@ -47,5 +46,16 @@ public class Timer : MonoBehaviour
         gameOverPanel.SetActive(false);
         ScoreTracker.instance.score = 0;
         ScoreTracker.instance.UpdateScore(0);
+
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("Target");
+        for (int i = 0; i < targets.Length; i++)
+        {
+            Destroy(targets[i]);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            TargetSpawner.instance.MakeNewTarget();
+        }
     }
 }

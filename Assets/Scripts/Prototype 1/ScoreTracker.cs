@@ -20,6 +20,7 @@ public class ScoreTracker : MonoBehaviour
     #endregion
 
     public int score = 0;
+    public int highscore = 0;
     public Text scoreT;
 
     private void Start()
