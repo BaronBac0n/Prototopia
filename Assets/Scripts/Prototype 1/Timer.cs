@@ -24,6 +24,7 @@ public class Timer : MonoBehaviour
 
     public GameObject gameOverPanel;
     public Text gameoverScore;
+    public Text highscoreT;
 
     void Update()
     {
@@ -34,6 +35,7 @@ public class Timer : MonoBehaviour
             if(ScoreTracker.instance.score > ScoreTracker.instance.highscore)
             {
                 ScoreTracker.instance.highscore = ScoreTracker.instance.score;
+                highscoreT.text = ScoreTracker.instance.highscore.ToString();
             }
             gameOverPanel.SetActive(true);
             gameoverScore.text = ScoreTracker.instance.score.ToString();

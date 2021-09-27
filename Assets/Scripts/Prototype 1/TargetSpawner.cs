@@ -40,10 +40,4 @@ public class TargetSpawner : MonoBehaviour
         Vector2 spawnPosition = new Vector2(spawnX, spawnY);
         Instantiate(targetPrefab, spawnPosition, Quaternion.identity);
     }
-
-    public Vector3 GetRandomPosition()
-    {
-
-        return new Vector3(0, 0, 0);
-    }
 }
