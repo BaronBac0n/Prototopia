@@ -21,6 +21,8 @@ public class Timer : MonoBehaviour
 
     public float timeLeft;
     public Text timerT;
+    public Text targetsHitT;
+    public Text accuracyT;
 
     public GameObject gameOverPanel;
     public Text gameoverScore;
@@ -36,6 +38,8 @@ public class Timer : MonoBehaviour
             {
                 ScoreTracker.instance.highscore = ScoreTracker.instance.score;
                 highscoreT.text = ScoreTracker.instance.highscore.ToString();
+                targetsHitT.text = ScoreTracker.instance.targetsHit.ToString();
+                //accuracyT.text = ScoreTracker.instance.a.ToString();
             }
             gameOverPanel.SetActive(true);
             gameoverScore.text = ScoreTracker.instance.score.ToString();

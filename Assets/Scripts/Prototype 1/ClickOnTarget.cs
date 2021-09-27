@@ -5,16 +5,21 @@ using UnityEngine;
 public class ClickOnTarget : MonoBehaviour
 {
     public int value;
+    public int audioToPlay;
+
+    private void Start()
+    {
+    }
 
     private void OnMouseDown()
     {
         if (Timer.instance.timeLeft > 0)
         {
-            ScoreTracker.instance.UpdateScore(value);
-
-            Destroy(this.transform.parent.gameObject);
-
-
+            ScoreTracker.instance.totalClicks++;
+            ScoreTracker.instance.targetsHit++;
+            SoundManager.instance.PlayAudio(audioToPlay);
+            Destroy(this.transform.parent.gameObject);            
+            ScoreTracker.instance.UpdateScore(value);               
             TargetSpawner.instance.MakeNewTarget();
         }
     }    

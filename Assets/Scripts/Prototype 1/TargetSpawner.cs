@@ -43,7 +43,6 @@ public class TargetSpawner : MonoBehaviour
         if (Physics2D.OverlapCircle(spawnPosition, 1))
         {
             MakeNewTarget();
-            print("G");
         }
         else
         {
