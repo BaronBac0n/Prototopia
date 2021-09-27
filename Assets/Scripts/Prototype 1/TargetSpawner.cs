@@ -38,6 +38,16 @@ public class TargetSpawner : MonoBehaviour
             (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
 
         Vector2 spawnPosition = new Vector2(spawnX, spawnY);
-        Instantiate(targetPrefab, spawnPosition, Quaternion.identity);
+
+        //stop overlap of targets
+        if (Physics2D.OverlapCircle(spawnPosition, 1))
+        {
+            MakeNewTarget();
+            print("G");
+        }
+        else
+        {
+            Instantiate(targetPrefab, spawnPosition, Quaternion.identity);
+        }
     }
 }
