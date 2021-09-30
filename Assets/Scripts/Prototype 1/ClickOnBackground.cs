@@ -6,11 +6,14 @@ public class ClickOnBackground : MonoBehaviour
 {
     public void OnMouseDown()
     {
-        if (Timer.instance.timeLeft > 0)
+        if (StartGame.instance.startPanel.activeInHierarchy == false)
         {
-            ScoreTracker.instance.totalClicks++;
-            ScoreTracker.instance.missedClicks++;
-            SoundManager.instance.PlayAudio(0);
+            if (Timer.instance.timeLeft > 0)
+            {
+                ScoreTracker.instance.totalClicks++;
+                //coreTracker.instance.missedClicks++;
+                SoundManager.instance.PlayAudio(0);
+            }
         }
     }
 }

@@ -24,10 +24,7 @@ public class TargetSpawner : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < maxTargets; i++)
-        {
-            MakeNewTarget();
-        }
+        
     }
 
     public void MakeNewTarget()

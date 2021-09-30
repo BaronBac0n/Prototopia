@@ -22,8 +22,8 @@ public class ScoreTracker : MonoBehaviour
     public int score = 0;
     public int highscore = 0;
     public Text scoreT;
-    public int targetsHit;
-    public int totalClicks;
+    public float targetsHit;
+    public float totalClicks;
     public int missedClicks;
 
     private void Start()

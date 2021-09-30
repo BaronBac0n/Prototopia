@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ebf942f3f86dd6499adf98e471d0b38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+  value: 20
   audioToPlay: 2
 --- !u!82 &6076329122370527648
 AudioSource:
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ebf942f3f86dd6499adf98e471d0b38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
+  value: 10
   audioToPlay: 2
 --- !u!82 &3702821051231336914
 AudioSource:

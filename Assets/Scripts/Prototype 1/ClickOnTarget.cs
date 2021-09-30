@@ -15,12 +15,11 @@ public class ClickOnTarget : MonoBehaviour
     {
         if (Timer.instance.timeLeft > 0)
         {
-            ScoreTracker.instance.totalClicks++;
             ScoreTracker.instance.targetsHit++;
-            SoundManager.instance.PlayAudio(audioToPlay);
-            Destroy(this.transform.parent.gameObject);            
+            SoundManager.instance.PlayAudio(audioToPlay);        
             ScoreTracker.instance.UpdateScore(value);               
             TargetSpawner.instance.MakeNewTarget();
+            Destroy(this.transform.parent.gameObject);
         }
     }    
 }
