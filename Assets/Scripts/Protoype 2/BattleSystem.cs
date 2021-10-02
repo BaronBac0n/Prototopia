@@ -38,6 +38,10 @@ public class BattleSystem : MonoBehaviour
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
+    public GameObject playerAttacksPanel;
+    public GameObject openAttacksButton;
+
+    [HideInInspector]
     public bool actionChosen = false;
 
     void Start()
@@ -72,13 +76,45 @@ public class BattleSystem : MonoBehaviour
         dialogueText.text = "Choose an action";
     }
 
-    public void OnAttackButton()
+    public void OpenAttacksButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+
+        playerAttacksPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action1.actionName;
+        playerAttacksPanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action2.actionName;
+        playerAttacksPanel.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action3.actionName;
+        playerAttacksPanel.transform.GetChild(3).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action4.actionName;
+        playerAttacksPanel.SetActive(true);
+        openAttacksButton.SetActive(false);
+    }
+
+    public void CloseAttacksButton()
+    {
+        playerAttacksPanel.SetActive(false);
+        openAttacksButton.SetActive(true);
+    }
+
+    public void OnAttackButton(int button)
     {
         if (state != BattleState.PLAYERTURN)
             return;
 
         actionChosen = true;
-        StartCoroutine(PlayerAttack());
+        switch (button)
+        {
+            case 1:
+                StartCoroutine(PlayerAttack());
+                if(playerUnit.actions.action1.statCost == Action.StatCost.STAMINA)
+                {
+                    playerUnit.stats.currStamina -= playerUnit.actions.action1.cost;
+                    playerHUD.SetStamina(playerUnit.actions.action1.cost);
+                    CloseAttacksButton();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnHealButton()
@@ -93,7 +129,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator PlayerHeal()
     {
         playerUnit.Heal(5);
-        playerHUD.SetHP(playerUnit.currentHP);
+        playerHUD.SetHP(playerUnit.stats.currHP);
 
         dialogueText.text = "You heal!";
 
@@ -113,7 +149,7 @@ public class BattleSystem : MonoBehaviour
         enemyUnit.anim.SetBool("isHit", false);
 
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
-        enemyHUD.SetHP(enemyUnit.currentHP);
+        enemyHUD.SetHP(enemyUnit.stats.currHP);
         dialogueText.text = "The attack hits!";
 
         yield return new WaitForSeconds(2f);
@@ -143,7 +179,7 @@ public class BattleSystem : MonoBehaviour
 
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
 
-        playerHUD.SetHP(playerUnit.currentHP);
+        playerHUD.SetHP(playerUnit.stats.currHP);
         yield return new WaitForSeconds(1f);
 
         if(isDead)

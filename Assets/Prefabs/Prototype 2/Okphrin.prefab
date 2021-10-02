@@ -147,7 +147,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Okphrin
+  stats:
+    maxHP: 30
+    currHP: 30
+    maxStamina: 5
+    currStamina: 5
+    maxMana: 5
+    currMana: 5
+  actions:
+    action1: {fileID: 0}
+    action2: {fileID: 0}
+    action3: {fileID: 0}
+    action4: {fileID: 0}
   damage: 5
-  maxHP: 30
-  currentHP: 30
   anim: {fileID: 0}
