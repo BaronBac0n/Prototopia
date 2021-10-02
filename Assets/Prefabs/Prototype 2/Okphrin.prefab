@@ -91,7 +91,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5745411366472048825}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 1cb596bfa585699408ee20438421e6e7, type: 2}
   m_CullingMode: 0
@@ -150,3 +150,4 @@ MonoBehaviour:
   damage: 5
   maxHP: 30
   currentHP: 30
+  anim: {fileID: 0}
