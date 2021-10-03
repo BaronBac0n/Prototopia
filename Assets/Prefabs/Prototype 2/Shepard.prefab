@@ -152,12 +152,12 @@ MonoBehaviour:
     currHP: 30
     maxStamina: 50
     currStamina: 50
-    maxMana: 10
-    currMana: 10
+    maxMana: 60
+    currMana: 60
   actions:
-    action1: {fileID: 11400000, guid: eb34566c98e2db04da2e6160c304e767, type: 2}
-    action2: {fileID: 11400000, guid: 582654f3d7a41984c8c8ec1e07482a24, type: 2}
-    action3: {fileID: 11400000, guid: ff868efc8933aaf4d954dc6e13471931, type: 2}
-    action4: {fileID: 11400000, guid: 4ed898b3d84f4cd4aa6e423b9a60657f, type: 2}
+  - {fileID: 11400000, guid: eb34566c98e2db04da2e6160c304e767, type: 2}
+  - {fileID: 11400000, guid: 582654f3d7a41984c8c8ec1e07482a24, type: 2}
+  - {fileID: 11400000, guid: ff868efc8933aaf4d954dc6e13471931, type: 2}
+  - {fileID: 11400000, guid: 4ed898b3d84f4cd4aa6e423b9a60657f, type: 2}
   damage: 5
   anim: {fileID: 0}

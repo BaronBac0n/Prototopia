@@ -15,18 +15,9 @@ public class UnitScript : MonoBehaviour
         public int maxStamina, currStamina;
         public int maxMana, currMana;
     }
-
-    [System.Serializable]
-    public struct Actions
-    {
-        public Action action1;
-        public Action action2;
-        public Action action3;
-        public Action action4;
-    }
-
+    
     public Stats stats;
-    public Actions actions;
+    public Action[] actions;
 
     public int damage;
 

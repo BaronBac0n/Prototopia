@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
+public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
 public class BattleSystem : MonoBehaviour
 {
@@ -81,10 +81,10 @@ public class BattleSystem : MonoBehaviour
         if (state != BattleState.PLAYERTURN)
             return;
 
-        playerAttacksPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action1.actionName;
-        playerAttacksPanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action2.actionName;
-        playerAttacksPanel.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action3.actionName;
-        playerAttacksPanel.transform.GetChild(3).GetChild(0).GetComponent<Text>().text = playerUnit.actions.action4.actionName;
+        playerAttacksPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = playerUnit.actions[0].actionName;
+        playerAttacksPanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerUnit.actions[1].actionName;
+        playerAttacksPanel.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerUnit.actions[2].actionName;
+        playerAttacksPanel.transform.GetChild(3).GetChild(0).GetComponent<Text>().text = playerUnit.actions[3].actionName;
         playerAttacksPanel.SetActive(true);
         openAttacksButton.SetActive(false);
     }
@@ -101,19 +101,74 @@ public class BattleSystem : MonoBehaviour
             return;
 
         actionChosen = true;
-        switch (button)
+        //if action uses stamina
+        if (playerUnit.actions[button].statCost == Action.StatCost.STAMINA)
         {
-            case 1:
-                StartCoroutine(PlayerAttack());
-                if(playerUnit.actions.action1.statCost == Action.StatCost.STAMINA)
-                {
-                    playerUnit.stats.currStamina -= playerUnit.actions.action1.cost;
-                    playerHUD.SetStamina(playerUnit.actions.action1.cost);
-                    CloseAttacksButton();
-                }
-                break;
-            default:
-                break;
+            StaminaAction(button);
+        }
+        //if action uses mana
+        else if (playerUnit.actions[button].statCost == Action.StatCost.MANA)
+        {
+            ManaAction(button);
+        }
+        //if action uses health
+        else if (playerUnit.actions[button].statCost == Action.StatCost.HEALTH)
+        {
+            HealthAction(button);
+        }
+    }
+
+    public void StaminaAction(int button)
+    {
+        //if i have enough stamina
+        if (playerUnit.stats.currStamina >= playerUnit.actions[button].cost)
+        {
+            //do it
+            playerUnit.stats.currStamina -= playerUnit.actions[button].cost;
+            playerHUD.SetStamina(playerUnit.stats.currStamina);
+            CloseAttacksButton();
+
+            StartCoroutine(PlayerAttack());
+        }
+        else
+        {
+            StartCoroutine(playerHUD.FlashText(playerHUD.stamTracker, playerHUD.stamTracker.color, Color.red, 3));
+        }
+    }
+
+    public void ManaAction(int button)
+    {
+        //if i have enough mana
+        if (playerUnit.stats.currMana >= playerUnit.actions[button].cost)
+        {
+            //do it
+            playerUnit.stats.currMana -= playerUnit.actions[button].cost;
+            playerHUD.SetMana(playerUnit.stats.currMana);
+            CloseAttacksButton();
+
+            StartCoroutine(PlayerAttack());
+        }
+        else
+        {
+            StartCoroutine(playerHUD.FlashText(playerHUD.manaTracker, playerHUD.manaTracker.color, Color.red, 3));
+        }
+    }
+
+    public void HealthAction(int button)
+    {
+        //if i have enough health
+        if (playerUnit.stats.currHP >= playerUnit.actions[button].cost)
+        {
+            //do it
+            playerUnit.stats.currHP -= playerUnit.actions[button].cost;
+            playerHUD.SetHP(playerUnit.stats.currHP);
+            CloseAttacksButton();
+
+            StartCoroutine(PlayerAttack());
+        }
+        else
+        {
+            StartCoroutine(playerHUD.FlashText(playerHUD.healthTracker, playerHUD.healthTracker.color, Color.red, 3));
         }
     }
 
@@ -182,7 +237,7 @@ public class BattleSystem : MonoBehaviour
         playerHUD.SetHP(playerUnit.stats.currHP);
         yield return new WaitForSeconds(1f);
 
-        if(isDead)
+        if (isDead)
         {
             state = BattleState.LOST;
             EndBattle();
@@ -196,11 +251,11 @@ public class BattleSystem : MonoBehaviour
 
     private void EndBattle()
     {
-        if(state == BattleState.WON)
+        if (state == BattleState.WON)
         {
             dialogueText.text = "You Win!";
         }
-        else if(state == BattleState.LOST)
+        else if (state == BattleState.LOST)
         {
             dialogueText.text = "You Lost!";
         }
