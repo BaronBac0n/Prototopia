@@ -22,6 +22,7 @@ public class BattleSystem : MonoBehaviour
     }
     #endregion
 
+    #region Variables
     public BattleState state;
 
     public Text dialogueText;
@@ -32,8 +33,8 @@ public class BattleSystem : MonoBehaviour
     public Transform enemySpawn;
     public Transform playerSpawn;
 
-    UnitScript playerUnit;
-    UnitScript enemyUnit;
+    public UnitScript playerUnit;
+    public UnitScript enemyUnit;
 
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
@@ -43,6 +44,7 @@ public class BattleSystem : MonoBehaviour
 
     [HideInInspector]
     public bool actionChosen = false;
+    #endregion
 
     void Start()
     {
@@ -81,10 +83,10 @@ public class BattleSystem : MonoBehaviour
         if (state != BattleState.PLAYERTURN)
             return;
 
-        playerAttacksPanel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = playerUnit.actions[0].actionName;
-        playerAttacksPanel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerUnit.actions[1].actionName;
-        playerAttacksPanel.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerUnit.actions[2].actionName;
-        playerAttacksPanel.transform.GetChild(3).GetChild(0).GetComponent<Text>().text = playerUnit.actions[3].actionName;
+        playerAttacksPanel.transform.GetChild(0).GetComponent<Image>().sprite = playerUnit.actions[0].icon;
+        playerAttacksPanel.transform.GetChild(1).GetComponent<Image>().sprite = playerUnit.actions[1].icon;
+        playerAttacksPanel.transform.GetChild(2).GetComponent<Image>().sprite = playerUnit.actions[2].icon;
+        playerAttacksPanel.transform.GetChild(3).GetComponent<Image>().sprite = playerUnit.actions[3].icon;
         playerAttacksPanel.SetActive(true);
         openAttacksButton.SetActive(false);
     }

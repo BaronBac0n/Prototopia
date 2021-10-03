@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b29b87463d63ef3429a2b28ae4318444, type: 3}
-  m_Name: Magic Blast
+  m_Name: Divine Smite
   m_EditorClassIdentifier: 
-  actionName: Magic Blast
+  actionName: Divine Smite
+  description: 
+  icon: {fileID: 21300000, guid: f10b957c1269c714f82c4430ecb1b36a, type: 3}
   statCost: 1
   cost: 40
+  damage: 0

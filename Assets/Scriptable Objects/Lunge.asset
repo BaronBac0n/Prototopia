@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Lunge
   m_EditorClassIdentifier: 
   actionName: Lunge
+  description: Stab with a spear
+  icon: {fileID: 21300000, guid: f289713521703604480c0681f88af79c, type: 3}
   statCost: 0
   cost: 40
+  damage: 0
