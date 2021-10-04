@@ -18,12 +18,24 @@ public class Action : ScriptableObject
 
     public int cost;
     public int damage;
+    public int heal;
 
     public string GetInfoText()
     {
         StringBuilder builder = new StringBuilder();
         builder.Append(cost + " " + statCost.ToString()).AppendLine();
-        builder.Append(description);
+        builder.Append(description).AppendLine();
+
+        if (damage > 0)
+        {
+            builder.Append("Deals " + damage + " damage").AppendLine();
+        }
+
+        if (heal > 0)
+        {
+            builder.Append("Heals " + heal + " damage").AppendLine();
+        }
+
         return builder.ToString();
     }
 }

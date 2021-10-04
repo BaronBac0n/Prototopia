@@ -17,4 +17,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: f289713521703604480c0681f88af79c, type: 3}
   statCost: 0
   cost: 40
-  damage: 0
+  damage: 3
+  heal: 0

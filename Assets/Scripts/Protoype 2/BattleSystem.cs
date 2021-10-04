@@ -118,6 +118,11 @@ public class BattleSystem : MonoBehaviour
         {
             HealthAction(button);
         }
+        else
+        {
+            CloseAttacksButton();
+            StartCoroutine(PlayerAttack(playerUnit.actions[button]));
+        }
     }
 
     public void StaminaAction(int button)
@@ -130,7 +135,7 @@ public class BattleSystem : MonoBehaviour
             playerHUD.SetStamina(playerUnit.stats.currStamina);
             CloseAttacksButton();
 
-            StartCoroutine(PlayerAttack());
+            StartCoroutine(PlayerAttack(playerUnit.actions[button]));
         }
         else
         {
@@ -148,7 +153,7 @@ public class BattleSystem : MonoBehaviour
             playerHUD.SetMana(playerUnit.stats.currMana);
             CloseAttacksButton();
 
-            StartCoroutine(PlayerAttack());
+            StartCoroutine(PlayerAttack(playerUnit.actions[button]));
         }
         else
         {
@@ -166,7 +171,7 @@ public class BattleSystem : MonoBehaviour
             playerHUD.SetHP(playerUnit.stats.currHP);
             CloseAttacksButton();
 
-            StartCoroutine(PlayerAttack());
+            StartCoroutine(PlayerAttack(playerUnit.actions[button]));
         }
         else
         {
@@ -174,42 +179,50 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void OnHealButton()
-    {
-        if (state != BattleState.PLAYERTURN)
-            return;
+    //public void OnHealButton()
+    //{
+    //    if (state != BattleState.PLAYERTURN)
+    //        return;
 
-        actionChosen = true;
-        StartCoroutine(PlayerHeal());
-    }
+    //    actionChosen = true;
+    //    StartCoroutine(PlayerHeal());
+    //}
 
-    private IEnumerator PlayerHeal()
+    private IEnumerator PlayerHeal(Action action)
     {
-        playerUnit.Heal(5);
+        playerUnit.Heal(action.heal);
         playerHUD.SetHP(playerUnit.stats.currHP);
 
         dialogueText.text = "You heal!";
 
         yield return new WaitForSeconds(2f);
-
-        state = BattleState.ENEMYTURN;
-        StartCoroutine(EnemyTurn());
     }
 
-    IEnumerator PlayerAttack()
+    IEnumerator PlayerAttack(Action action)
     {
         // do attack anim
+
+        bool isDead = false;
+        // I THINK I WAS WORKING ON SOMETHING HERE
         playerUnit.anim.SetBool("isAttacking", true);
         enemyUnit.anim.SetBool("isHit", true);
         yield return new WaitForSeconds(0.1f);
         playerUnit.anim.SetBool("isAttacking", false);
         enemyUnit.anim.SetBool("isHit", false);
 
-        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
-        enemyHUD.SetHP(enemyUnit.stats.currHP);
-        dialogueText.text = "The attack hits!";
+        if (action.damage > 0)
+        {
+            isDead = enemyUnit.TakeDamage(action.damage);
+            enemyHUD.SetHP(enemyUnit.stats.currHP);
+            dialogueText.text = "The attack hits!";
 
-        yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2f);
+        }
+
+        if (action.heal > 0)
+        {
+            PlayerHeal(action);
+        }
 
         if (isDead)
         {
