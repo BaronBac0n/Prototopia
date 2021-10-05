@@ -219,9 +219,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerAttack(Action action)
     {
         // do attack anim
-
         bool isDead = false;
-        // I THINK I WAS WORKING ON SOMETHING HERE
         playerUnit.anim.SetBool("isAttacking", true);
         enemyUnit.anim.SetBool("isHit", true);
         yield return new WaitForSeconds(0.1f);
@@ -252,43 +250,67 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(PlayerAddMana(action));
         }
 
-        if (isDead)
-        {
-            state = BattleState.WON;
-            EndBattle();
-        }
-        else
-        {
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
-        }
-
+        CheckForEndOfGame(isDead);
     }
 
     private IEnumerator EnemyTurn()
     {
-        dialogueText.text = enemyUnit.unitName + " attacks!";
-
+        int selectedAction = ChooseEnemyAttack();
         yield return new WaitForSeconds(1f);
 
-        enemyUnit.anim.SetBool("isAttacking", true);
-        yield return new WaitForSeconds(0.2f);
-        enemyUnit.anim.SetBool("isAttacking", false);
+        StartCoroutine(EnemyAttackAnim(enemyUnit.actions[selectedAction]));
 
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        bool isDead = playerUnit.TakeDamage(enemyUnit.actions[selectedAction].damage);
 
         playerHUD.SetHP(playerUnit.stats.currHP);
         yield return new WaitForSeconds(1f);
 
-        if (isDead)
+        CheckForEndOfGame(isDead);
+    }
+
+    private int ChooseEnemyAttack()
+    {
+        int rand = UnityEngine.Random.Range(0, 4);
+        dialogueText.text = enemyUnit.unitName + " uses " + enemyUnit.actions[rand].actionName;
+        return rand;
+    }
+
+    IEnumerator EnemyAttackAnim(Action action)
+    {
+        enemyUnit.anim.SetBool("isAttacking", true);
+        yield return new WaitForSeconds(0.2f);
+        enemyUnit.anim.SetBool("isAttacking", false);
+
+        yield return new WaitForSeconds(1f);
+    }
+
+    public void CheckForEndOfGame(bool isDead)
+    {
+        if (state == BattleState.ENEMYTURN)
         {
-            state = BattleState.LOST;
-            EndBattle();
+            if (isDead)
+            {
+                state = BattleState.LOST;
+                EndBattle();
+            }
+            else
+            {
+                state = BattleState.PLAYERTURN;
+                PlayerTurn();
+            }
         }
-        else
+        else if(state == BattleState.PLAYERTURN)
         {
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
+            if (isDead)
+            {
+                state = BattleState.WON;
+                EndBattle();
+            }
+            else
+            {
+                state = BattleState.ENEMYTURN;
+                StartCoroutine(EnemyTurn());
+            }
         }
     }
 

@@ -155,9 +155,9 @@ MonoBehaviour:
     maxMana: 5
     currMana: 5
   actions:
-    action1: {fileID: 0}
-    action2: {fileID: 0}
-    action3: {fileID: 0}
-    action4: {fileID: 0}
+  - {fileID: 11400000, guid: 712cdc1c7d763ff4ca7de835bfef29ab, type: 2}
+  - {fileID: 11400000, guid: b429a3a050f22884eba479d83aa00d24, type: 2}
+  - {fileID: 11400000, guid: 9d48155801b5b334baa51f635808c9c5, type: 2}
+  - {fileID: 11400000, guid: c6339472788193f45b2b888935847954, type: 2}
   damage: 5
   anim: {fileID: 0}
