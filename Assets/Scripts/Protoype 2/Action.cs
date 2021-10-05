@@ -19,6 +19,8 @@ public class Action : ScriptableObject
     public int cost;
     public int damage;
     public int heal;
+    public int healStam;
+    public int healMana;
 
     public string GetInfoText()
     {
@@ -34,6 +36,16 @@ public class Action : ScriptableObject
         if (heal > 0)
         {
             builder.Append("Heals " + heal + " damage").AppendLine();
+        }
+
+        if (healStam > 0)
+        {
+            builder.Append("Restores " + healStam + " stamina").AppendLine();
+        }
+
+        if (healMana > 0)
+        {
+            builder.Append("Restores " + healMana + " mana").AppendLine();
         }
 
         return builder.ToString();

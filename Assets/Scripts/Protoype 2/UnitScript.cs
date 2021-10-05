@@ -57,6 +57,24 @@ public class UnitScript : MonoBehaviour
         }
     }
 
+    public void RestoreStam(int amount)
+    {
+        stats.currStamina += amount;
+        if(stats.currStamina > stats.maxStamina)
+        {
+            stats.currStamina = stats.maxStamina;
+        }
+    }
+
+    public void RestoreMana(int amount)
+    {
+        stats.currMana += amount;
+        if(stats.currMana > stats.maxMana)
+        {
+            stats.currMana = stats.maxMana;
+        }
+    }
+
     IEnumerator Pause()
     {
         transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;

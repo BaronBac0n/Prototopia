@@ -179,21 +179,26 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    //public void OnHealButton()
-    //{
-    //    if (state != BattleState.PLAYERTURN)
-    //        return;
-
-    //    actionChosen = true;
-    //    StartCoroutine(PlayerHeal());
-    //}
-
     private IEnumerator PlayerHeal(Action action)
     {
         playerUnit.Heal(action.heal);
         playerHUD.SetHP(playerUnit.stats.currHP);
 
-        dialogueText.text = "You heal!";
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator PlayerAddStamina(Action action)
+    {
+        playerUnit.RestoreStam(action.healStam);
+        playerHUD.SetStamina(playerUnit.stats.currStamina);
+
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator PlayerAddMana(Action action)
+    {
+        playerUnit.RestoreMana(action.healMana);
+        playerHUD.SetMana(playerUnit.stats.currMana);
 
         yield return new WaitForSeconds(2f);
     }
@@ -221,7 +226,17 @@ public class BattleSystem : MonoBehaviour
 
         if (action.heal > 0)
         {
-            PlayerHeal(action);
+            StartCoroutine(PlayerHeal(action));
+        }
+
+        if (action.healStam > 0)
+        {
+            StartCoroutine(PlayerAddStamina(action));
+        }
+
+        if (action.healMana > 0)
+        {
+            StartCoroutine(PlayerAddMana(action));
         }
 
         if (isDead)
