@@ -42,6 +42,10 @@ public class BattleSystem : MonoBehaviour
     public GameObject playerAttacksPanel;
     public GameObject openAttacksButton;
 
+    public int healthPerTurn;
+    public int stamPerTurn;
+    public int manaPerTurn;
+
     [HideInInspector]
     public bool actionChosen = false;
     #endregion
@@ -74,6 +78,15 @@ public class BattleSystem : MonoBehaviour
 
     private void PlayerTurn()
     {
+        playerUnit.Heal(healthPerTurn);
+        playerHUD.SetHP(playerUnit.stats.currHP);
+
+        playerUnit.RestoreStam(stamPerTurn);
+        playerHUD.SetStamina(playerUnit.stats.currStamina);
+
+        playerUnit.RestoreMana(manaPerTurn);
+        playerHUD.SetMana(playerUnit.stats.currMana);
+
         actionChosen = false;
         dialogueText.text = "Choose an action";
     }

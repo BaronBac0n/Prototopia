@@ -873,6 +873,9 @@ MonoBehaviour:
   enemyHUD: {fileID: 1519039717}
   playerAttacksPanel: {fileID: 2120836965}
   openAttacksButton: {fileID: 1689145143}
+  healthPerTurn: 0
+  stamPerTurn: 10
+  manaPerTurn: 5
   actionChosen: 0
 --- !u!4 &181786258
 Transform:

@@ -24,10 +24,10 @@ public class BattleHUD : MonoBehaviour
 
         manaSlider.maxValue = unit.stats.maxMana;
         manaSlider.value = unit.stats.currMana;
-
-        healthTracker.text = hpSlider.maxValue + "/" + hpSlider.maxValue;
-        stamTracker.text = staminaSlider.maxValue + "/" + hpSlider.maxValue;
-        manaTracker.text = manaSlider.maxValue + "/" + manaSlider.maxValue;
+        
+        SetHP(unit.stats.currHP);
+        SetStamina(unit.stats.currStamina);
+        SetMana(unit.stats.currMana);
     }
 
     public void SetHP(int hp)
