@@ -192,28 +192,76 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerHeal(Action action)
+    IEnumerator EnemyHealthAction(Action action)
+    {
+        //do it
+        enemyUnit.stats.currHP -= action.cost;
+        enemyHUD.SetHP(enemyUnit.stats.currHP);
+
+        bool isDead = playerUnit.TakeDamage(action.damage);
+
+        StartCoroutine(EnemyAttackAnim(action));
+
+        playerHUD.SetHP(playerUnit.stats.currHP);
+        yield return new WaitForSeconds(1f);
+
+        CheckForEndOfGame(isDead);
+    }
+
+    IEnumerator EnemyStaminaAction(Action action)
+    {
+        //do it
+
+        dialogueText.text = enemyUnit.unitName + " uses " + action.actionName;
+        
+        enemyUnit.stats.currStamina -= action.cost;
+        enemyHUD.SetStamina(enemyUnit.stats.currStamina);
+
+        bool isDead = playerUnit.TakeDamage(action.damage);
+
+        StartCoroutine(EnemyAttackAnim(action));
+
+        playerHUD.SetHP(playerUnit.stats.currHP);
+        yield return new WaitForSeconds(1f);
+
+        CheckForEndOfGame(isDead);
+    }
+
+    IEnumerator EnemyManaAction(Action action)
+    {
+        //do it
+        enemyUnit.stats.currMana -= action.cost;
+        enemyHUD.SetMana(enemyUnit.stats.currMana);
+
+        bool isDead = playerUnit.TakeDamage(action.damage);
+
+        StartCoroutine(EnemyAttackAnim(action));
+
+        playerHUD.SetHP(playerUnit.stats.currHP);
+        yield return new WaitForSeconds(1f);
+
+        CheckForEndOfGame(isDead);
+    }
+
+    private void PlayerHeal(Action action)
     {
         playerUnit.Heal(action.heal);
         playerHUD.SetHP(playerUnit.stats.currHP);
-
-        yield return new WaitForSeconds(2f);
+        dialogueText.text = playerUnit.unitName + " heals " + action.heal + " health";
     }
 
-    private IEnumerator PlayerAddStamina(Action action)
+    private void PlayerAddStamina(Action action)
     {
         playerUnit.RestoreStam(action.healStam);
         playerHUD.SetStamina(playerUnit.stats.currStamina);
-
-        yield return new WaitForSeconds(2f);
+        dialogueText.text = playerUnit.unitName + " restores " + action.healStam + " stamina";
     }
 
-    private IEnumerator PlayerAddMana(Action action)
+    private void PlayerAddMana(Action action)
     {
         playerUnit.RestoreMana(action.healMana);
         playerHUD.SetMana(playerUnit.stats.currMana);
-
-        yield return new WaitForSeconds(2f);
+        dialogueText.text = playerUnit.unitName + " restores " + action.healMana + " mana";
     }
 
     IEnumerator PlayerAttack(Action action)
@@ -225,6 +273,24 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         playerUnit.anim.SetBool("isAttacking", false);
         enemyUnit.anim.SetBool("isHit", false);
+       
+        if (action.heal > 0)
+        {
+            PlayerHeal(action);
+            yield return new WaitForSeconds(2f);
+        }
+
+        if (action.healStam > 0)
+        {
+            PlayerAddStamina(action);
+            yield return new WaitForSeconds(2f);
+        }
+
+        if (action.healMana > 0)
+        {
+            PlayerAddMana(action);
+            yield return new WaitForSeconds(2f);
+        }
 
         if (action.damage > 0)
         {
@@ -234,45 +300,51 @@ public class BattleSystem : MonoBehaviour
 
             yield return new WaitForSeconds(2f);
         }
-
-        if (action.heal > 0)
-        {
-            StartCoroutine(PlayerHeal(action));
-        }
-
-        if (action.healStam > 0)
-        {
-            StartCoroutine(PlayerAddStamina(action));
-        }
-
-        if (action.healMana > 0)
-        {
-            StartCoroutine(PlayerAddMana(action));
-        }
-
         CheckForEndOfGame(isDead);
     }
 
-    private IEnumerator EnemyTurn()
+    private void EnemyTurn()
     {
-        int selectedAction = ChooseEnemyAttack();
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(EnemyAttackAnim(enemyUnit.actions[selectedAction]));
-
-        bool isDead = playerUnit.TakeDamage(enemyUnit.actions[selectedAction].damage);
-
-        playerHUD.SetHP(playerUnit.stats.currHP);
-        yield return new WaitForSeconds(1f);
-
-        CheckForEndOfGame(isDead);
+        ChooseEnemyAttack();
     }
 
-    private int ChooseEnemyAttack()
+    private void ChooseEnemyAttack()
     {
         int rand = UnityEngine.Random.Range(0, 4);
-        dialogueText.text = enemyUnit.unitName + " uses " + enemyUnit.actions[rand].actionName;
-        return rand;
+        //check if the enemy can use that skill
+        if (enemyUnit.actions[rand].statCost == Action.StatCost.HEALTH)
+        {
+            if (enemyUnit.stats.currHP >= enemyUnit.actions[rand].cost)
+            {
+                StartCoroutine(EnemyHealthAction(enemyUnit.actions[rand]));
+            }
+            else
+            {
+                ChooseEnemyAttack();
+            }
+        }
+        else if (enemyUnit.actions[rand].statCost == Action.StatCost.STAMINA)
+        {
+            if (enemyUnit.stats.currStamina >= enemyUnit.actions[rand].cost)
+            {
+                StartCoroutine(EnemyStaminaAction(enemyUnit.actions[rand]));
+            }
+            else
+            {
+                ChooseEnemyAttack();
+            }
+        }
+        else if (enemyUnit.actions[rand].statCost == Action.StatCost.MANA)
+        {
+            if (enemyUnit.stats.currMana >= enemyUnit.actions[rand].cost)
+            {
+                StartCoroutine(EnemyManaAction(enemyUnit.actions[rand]));
+            }
+            else
+            {
+                ChooseEnemyAttack();
+            }
+        }
     }
 
     IEnumerator EnemyAttackAnim(Action action)
@@ -299,7 +371,7 @@ public class BattleSystem : MonoBehaviour
                 PlayerTurn();
             }
         }
-        else if(state == BattleState.PLAYERTURN)
+        else if (state == BattleState.PLAYERTURN)
         {
             if (isDead)
             {
@@ -309,7 +381,7 @@ public class BattleSystem : MonoBehaviour
             else
             {
                 state = BattleState.ENEMYTURN;
-                StartCoroutine(EnemyTurn());
+                EnemyTurn();
             }
         }
     }

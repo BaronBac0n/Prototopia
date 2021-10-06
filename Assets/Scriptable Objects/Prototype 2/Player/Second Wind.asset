@@ -20,4 +20,4 @@ MonoBehaviour:
   damage: 0
   heal: 5
   healStam: 5
-  healMana: 0
+  healMana: 5

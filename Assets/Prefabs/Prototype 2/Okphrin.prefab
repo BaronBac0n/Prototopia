@@ -150,8 +150,8 @@ MonoBehaviour:
   stats:
     maxHP: 30
     currHP: 30
-    maxStamina: 5
-    currStamina: 5
+    maxStamina: 100
+    currStamina: 100
     maxMana: 5
     currMana: 5
   actions:
