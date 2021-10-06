@@ -305,6 +305,16 @@ public class BattleSystem : MonoBehaviour
 
     private void EnemyTurn()
     {
+        enemyUnit.Heal(healthPerTurn);
+        enemyHUD.SetHP(enemyUnit.stats.currHP);
+
+        enemyUnit.RestoreStam(stamPerTurn);
+        enemyHUD.SetStamina(enemyUnit.stats.currStamina);
+
+        enemyUnit.RestoreMana(manaPerTurn);
+        enemyHUD.SetMana(enemyUnit.stats.currMana);
+
+
         ChooseEnemyAttack();
     }
 
