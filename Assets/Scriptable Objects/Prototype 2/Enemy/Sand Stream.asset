@@ -16,8 +16,8 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   statCost: 0
-  cost: 11
-  damage: 3
+  cost: 30
+  damage: 10
   heal: 0
   healStam: 0
   healMana: 0

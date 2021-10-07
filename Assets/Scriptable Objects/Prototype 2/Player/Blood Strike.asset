@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blood Strike
   m_EditorClassIdentifier: 
   actionName: Blood Strike
-  description: 
+  description: Strike with your own blood
   icon: {fileID: 21300000, guid: f9a2be4b013cb884f879cb67e258a769, type: 3}
   statCost: 2
   cost: 10

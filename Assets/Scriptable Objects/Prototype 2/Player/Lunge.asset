@@ -16,6 +16,8 @@ MonoBehaviour:
   description: Stab with a spear
   icon: {fileID: 21300000, guid: f289713521703604480c0681f88af79c, type: 3}
   statCost: 0
-  cost: 40
-  damage: 3
+  cost: 5
+  damage: 20
   heal: 0
+  healStam: 0
+  healMana: 0

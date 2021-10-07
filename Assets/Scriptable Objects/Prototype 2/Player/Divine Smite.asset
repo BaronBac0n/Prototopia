@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Divine Smite
   m_EditorClassIdentifier: 
   actionName: Divine Smite
-  description: 
+  description: Call down a holy strike
   icon: {fileID: 21300000, guid: f10b957c1269c714f82c4430ecb1b36a, type: 3}
   statCost: 1
   cost: 40
-  damage: 20
+  damage: 40
   heal: 0
   healStam: 0
   healMana: 0

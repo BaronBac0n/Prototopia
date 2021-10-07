@@ -148,8 +148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Okphrin
   stats:
-    maxHP: 30
-    currHP: 30
+    maxHP: 300
+    currHP: 300
     maxStamina: 100
     currStamina: 100
     maxMana: 5
